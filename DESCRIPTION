@@ -1,0 +1,11 @@
+Package: unintCS01
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Authors@R: c(person("Samantha", "Sprague", email="samanthasprague@gmail.com", role=c("aut")), person("David","Joseph",email="josephsd@smu.edu", role=c("aut")),person("Carson","Drake",email="drakec@smu.edu", role=c("aut")))
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
