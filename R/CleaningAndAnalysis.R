@@ -5,9 +5,6 @@ rawBeer <- read.csv(file = "data/raw/Beers.csv",header=TRUE, sep=",",stringsAsFa
 ######################################## Breweries ###################################################
 rawBrew <- read.csv(file= "data/raw/Breweries.csv", header=TRUE, sep=",", stringsAsFactors=FALSE)
 ############################### Examine the structures, esp colnames ############################
-str(rawBeer)
-str(rawBrew)
-
 # we see that beer has beer name, beer id, abv, ibu, brewery id, and style, 
 # while breweries have brew id, name, city state
 
@@ -21,8 +18,8 @@ Beer1 <- Beer1 %>% select(Name,Beer_ID,ABV,IBU,Style,Ounces,Brewery_ID)
 BeerBrew <- merge(Beer1,Brew1, by='Brewery_ID')
 # Now we need to tidy up our names, we should have done this before merging
 BeerBrew <- BeerBrew %>% rename(BeerName = Name.x) %>% rename(BreweryName = Name.y)
-head(BeerBrew)
-tail(BeerBrew)
+# Lets also reorder our columns
+BeerBrew <- BeerBrew %>% select(BeerName,Beer_ID,ABV,IBU,Style,Ounces,BreweryName,Brewery_ID,City,State)
 # Now we can count the amount of NAs, also look at all those parentheses!
 na_count <- data.frame(sapply(BeerBrew, function(y) sum(length(which(is.na(y))))))
 # Human readable names!
@@ -35,6 +32,8 @@ StateSummary <- as.data.frame(BeerBrew %>% group_by(State) %>% summarise(medianA
 MaxABV <- BeerBrew %>% select(State, BeerName, ABV) %>% filter(!is.na(ABV)) %>% arrange(desc(ABV)) %>% slice(1)
 MaxIBU <- BeerBrew %>% select(State, BeerName, IBU) %>% filter(!is.na(IBU)) %>% arrange(desc(IBU)) %>% slice(1)
 # Once we decide on summary statistics we can easily make that, now all that is left is data viz
+head(BeerBrew)
+tail(BeerBrew)
 StateSummary
 na_count
 MaxABV
