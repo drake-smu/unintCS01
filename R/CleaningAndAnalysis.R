@@ -27,7 +27,6 @@ tail(BeerBrew)
 na_count <- data.frame(sapply(BeerBrew, function(y) sum(length(which(is.na(y))))))
 # Human readable names!
 na_count<- na_count%>%rename(na_count=sapply.BeerBrew..function.y..sum.length.which.is.na.y.....)
-na_count
 # Now let's figure out whats going on in each state, number of breweries in each one
 # Lets discuss barplots, I am great at ggplot2 but there are so many ways to present this
 # Here we make a data frame which has summary statistics for each state
@@ -36,3 +35,7 @@ StateSummary <- as.data.frame(BeerBrew %>% group_by(State) %>% summarise(medianA
 MaxABV <- BeerBrew %>% select(State, BeerName, ABV) %>% filter(!is.na(ABV)) %>% arrange(desc(ABV)) %>% slice(1)
 MaxIBU <- BeerBrew %>% select(State, BeerName, IBU) %>% filter(!is.na(IBU)) %>% arrange(desc(IBU)) %>% slice(1)
 # Once we decide on summary statistics we can easily make that, now all that is left is data viz
+StateSummary
+na_count
+MaxABV
+MaxIBU
