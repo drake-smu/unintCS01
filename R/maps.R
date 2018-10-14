@@ -22,4 +22,6 @@ hcmap("countries/us/us-all", data = StateSummary, value = "medianABV",
       joinBy = "hc-a2", name = "State Summary | Median ABV",
       dataLabels = list(enabled = TRUE, format = '{point.name}'),
       borderColor = "#FAFAFA", borderWidth = 0.1,
-      tooltip = list(valueDecimals = 5,valueSuffix = " ABV"))
+      tooltip = list(valueDecimals = 5,valueSuffix = " ABV")) %>%
+	hc_colorAxis(minColor = "#FFFFFF", maxColor = "#FF0000") %>%
+	hc_mapNavigation(enabled = TRUE)
