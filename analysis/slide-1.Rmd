@@ -1,0 +1,15 @@
+---
+title: "Slide-1"
+author: "Carson Drake"
+date: "10/14/2018"
+output: html_document
+---
+## Getting up
+
+- Turn off alarm
+- Get out of bed
+
+## Breakfast
+
+- Eat eggs
+- Drink coffee

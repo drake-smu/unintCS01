@@ -6,30 +6,11 @@ output: ioslides_presentation
 ---
 # In the morning
 
-## Getting up
-
-- Turn off alarm
-- Get out of bed
-
-## Breakfast
-
-- Eat eggs
-- Drink coffee
-
-# In the evening
-
-## Dinner
-
-- Eat spaghetti
-- Drink wine
-
----
-
-```{r, cars, fig.cap="A scatterplot.", echo=FALSE}
-plot(cars)
+```{r slide-1, child="slide-1.Rmd"}
 ```
 
-## Going to sleep
+```{r slide-2, child="slide-2.Rmd"}
+```
 
-- Get in bed
-- Count sheep
+```{r slide-3, child="slide-3.Rmd"}
+```
