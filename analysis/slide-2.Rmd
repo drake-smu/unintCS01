@@ -5,19 +5,4 @@ date: "10/14/2018"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-# In the evening
-
-## Dinner
-
-- Eat spaghetti
-- Drink wine
-
----
-
-```{r, cars, fig.cap="A scatterplot.", echo=FALSE}
-plot(cars)
-```
 
