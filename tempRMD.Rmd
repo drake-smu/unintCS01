@@ -6,14 +6,19 @@ output:
   ioslides_presentation:
     widescreen: true
     smaller: true
+    logo: dds_logo.png
 ---
 
+
 ```{r setup, include=FALSE}
+# Setting our Echo on output for the presentation to be false
 knitr::opts_chunk$set(echo = FALSE)
 
 ```
 
+
 ```{r libraries, include=FALSE}
+# Adding presentation style
 knitr::opts_chunk$set(
 	fig.align = "center",
 	out.width = "80%",
@@ -21,14 +26,22 @@ knitr::opts_chunk$set(
 	error=FALSE, 
 	message=FALSE, 
 	warning=FALSE);
+# Libraries needed for analysis
 library(dplyr)
 library(ggplot2)
 library(readr)
 library(stringr)
 library(highcharter)
 library(ggthemes)
-library(knitr);
+library(knitr)
+library(dataMaid);
 ```
+
+```{r sessionInfo, include=FALSE}
+# Ensuring we include all relevant package versions
+sessionInfo()
+```
+
 
 # Introduction
 
@@ -44,13 +57,13 @@ rawBeer <- read.csv(file = "data/raw/Beers.csv",header=TRUE, sep=",",stringsAsFa
 rawBrew <- read.csv(file= "data/raw/Breweries.csv", header=TRUE, sep=",", stringsAsFactors=FALSE)
 
 
-# Next we rename  the brewery IDs, and merge the data:
+# Next we rename  the brewery IDs, and merge the data
 Beer1 <- rawBeer %>% rename(Brewery_ID=Brewery_id)
 Brew1 <- rawBrew %>% rename(Brewery_ID=Brew_ID)
 Beer1 <- Beer1 %>% select(Name,Beer_ID,ABV,IBU,Style,Ounces,Brewery_ID)
 BeerBrew <- merge(Beer1,Brew1, by='Brewery_ID')
 
-# Next we reorder the columns and give ourselves human readable names
+# Reordering the columns and give ourselves human readable names
 BeerBrew <- BeerBrew %>% rename(BeerName = Name.x) %>% rename(BreweryName = Name.y)
 BeerBrew <- BeerBrew %>% select(BeerName,Beer_ID,ABV,IBU,Style,Ounces,BreweryName,Brewery_ID,City,State)
 
@@ -64,6 +77,7 @@ kable(head(BeerBrew,6))
 
 ## The Data (continued)
 ```{r}
+#This procudes a readable table for the presentation that includes the first six lines of the dataframe BeerBrew
 kable(tail(BeerBrew,6))
 ```
 
@@ -87,7 +101,7 @@ kable(head(StateSummary,6))
 ## Missing Values
 #### The next logical step in analyzing the dataset was to find missing values. 
 ```{r NA_count}
-# This code is used to identify missing values
+# This code is used to identify missing values and create the na_count dataframe
 na_count <- data.frame(sapply(BeerBrew, function(y) sum(length(which(is.na(y))))))
 na_count<- na_count%>%rename(na_count=sapply.BeerBrew..function.y..sum.length.which.is.na.y.....)
 na_count
@@ -98,18 +112,15 @@ na_count
 
 ## 
 ```{r map_of_numbrew}
-#Pulling in the data from the highcharter. 
+#Pulling in map data from the highcharter in order to render the US map
 mapdata <- get_data_from_map(download_map_data("countries/us/us-all"))
 
+#Adding a column called "hc-2a" in order to provide a primary key on both the mapdata df and our StateSummary df, "hc-2a" is equal to our State varaible
 StateSummary$State <- str_trim(StateSummary$State,side="both")
 StateSummary <- StateSummary %>% mutate(`hc-a2`= State);
-mapdata <- get_data_from_map(download_map_data("countries/us/us-all"))
 
 
-#Below is an interactive state map that allows you to toggle over each state and showcase the number of breweries within that particular state. It also includes a heatmap to represent the number by color. The darker the state, the more breweries it contains! 
-# Map of numbers 
-
-
+#Below is an interactive state map that allows you to toggle over each state and showcase the number of breweries within that particular state. It also includes a heatmap to represent the number by color. The darker the state, the more breweries it contains! It reads in the data set from the api url and then merges it with our dataframe StateSummary on the varaible hc-2a.
 hcmap("countries/us/us-all", data = StateSummary, value = "NumBreweries",
 	  joinBy = "hc-a2", name = "State Summary | # of Breweries",
 	  dataLabels = list(enabled = TRUE, format = '{point.name}'),
@@ -130,6 +141,7 @@ hcmap("countries/us/us-all", data = StateSummary, value = "NumBreweries",
 
 ## 
 ```{r map of ABV}
+# This is a map of the US colored by the median ABV by State, we used the same merging primary key and API call as the graphic above
 map3 <-hcmap("countries/us/us-all", data = StateSummary, value = "medianABV",
 	  joinBy = "hc-a2", name = "State Summary | Median ABV",
 	  dataLabels = list(enabled = TRUE, format = '{point.name}'),
@@ -144,8 +156,10 @@ map3 <-hcmap("countries/us/us-all", data = StateSummary, value = "medianABV",
 htmltools::tagList(map3)
 ```
 
-# 
+## Median ABV 
+
 ```{r medianABVplot}
+# This is another visual graph of the median ABV by state using ggplot, this allows us to see numerically the differences in median ABV by state
 g <-ggplot(StateSummary, aes(x=reorder(State,-medianABV),y=medianABV, fill=medianABV)) +  geom_bar(stat="identity") 
  g2 <-g
  g3<-g2+coord_flip(ylim=c(.04,.0650))
@@ -155,6 +169,7 @@ g5
 ```
 
 ## Maximum ABV
+
 ```{r maximumIndividualABV}
 # This finds the state which has the most alcoholic beer, the name of the beer, the city it is produced in, and the actual ABV of the beer
 MaxABV <- BeerBrew %>% select(State, BeerName, City, ABV) %>% filter(!is.na(ABV)) %>% arrange(desc(ABV)) %>% slice(1)
@@ -169,6 +184,7 @@ MaxABV
 
 ## 
 ```{r ibumap}
+# This is a map of the US colored by median IBU of beers brewed in each state, it uses the highcharter API and the same merging primary key as the above graphs
 map2<-hcmap("countries/us/us-all", data = StateSummary, value = "medianIBU",
 	  joinBy = "hc-a2", name = "State Summary | Median IBU",
 	  dataLabels = list(enabled = TRUE, format = '{point.name}'),
@@ -184,12 +200,14 @@ htmltools::tagList(map2)
 ```
 
 ## Median IBU
+
 ```{r medianIBUplot}
+# This is another view that looks at median IBU of each beer brewed by state, note here that SD doesn't have any data for IBU of their beers
 p<-ggplot(StateSummary, aes(x=reorder(State,-medianIBU),y=medianIBU, fill=medianIBU)) +  geom_bar(stat="identity") 
  p2 <-p
  p3<-p2+coord_flip(ylim=c(18,70))
  p4<-p3+theme(legend.position='none')
- p5<-p4+scale_fill_gradient2(midpoint=median(StateSummary$medianIBU,na.rm=TRUE),low='red', mid='snow3', high='black', space='Lab')+theme_classic()+labs(x="State", y="IBU", legend="IBU")+ggtitle("Median IBU by state") +
+ p5<-p4+scale_fill_gradient2(midpoint=median(StateSummary$medianIBU,na.rm=TRUE),low='red', mid='snow3', high='black', space='Lab')+theme_classic()+labs(x="State", y="IBU", legend="IBU")+ggtitle("Median IBU by State") +
   theme(plot.title = element_text(hjust = 0.5)) 
 p5
 ```
@@ -208,34 +226,39 @@ MaxIBU
 
 # Graphics: Analysis on ABV vs IBU
 
-## 
+## ABV v IBU
 ```{r scatterplotgg}
-q<-ggplot(data=BeerBrew, aes(x=ABV,y=IBU))+geom_point()+geom_smooth(method="glm",aes(color="Linear"))+scale_color_manual(name="Fits",breaks=c("Linear"),values=c("blue"))+theme_classic()+ggtitle("Bitterness vs ABV") +theme(plot.title = element_text(hjust = 0.5))+labs(x="ABV", y="IBU")+xlim(.027,0.15)
+# This graph draws a best fit linear line to the ABV v IBU comparsion plot. This line best represents a linear statistical model that would estimate the best IBU for a beer based on a given ABV, and vise versa.
+q<-ggplot(data=BeerBrew, aes(x=ABV,y=IBU))+geom_point()+geom_smooth(method="glm",aes(color="Linear"))+scale_color_manual(name="Fits",breaks=c("Linear"),values=c("blue"))+theme_classic()+ggtitle("ABV v IBU") +theme(plot.title = element_text(hjust = 0.5))+labs(x="ABV", y="IBU")+xlim(.027,0.15)
 q
 ```
-####<font size="3">There needs to be a comment here about this graph.</font>
 
-## Another view: ABV vs IBU for All Beers
+
+## Another view: ABV vs IBU
 
 ```{r}
+#This is an interactive scatterplot that shows the ABV v IBU for each beer and is colored by Style. You can see here that there are clusters that merge from ABV v IBU content, and that specific types of beer fall into these categories. Two prominent styles are black dots presented to be "American Double / Imperial IPA", and the pink dots represented to be "American IPAs". What other pattern/clusters do you see?
 hchart(BeerBrew, "scatter", hcaes(x=BeerBrew$ABV,  y=BeerBrew$IBU, group =BeerBrew$Style)) %>%
 	hc_xAxis(title = list(text = "ABV for All Beers")) %>%
-	hc_yAxis(title = list(text = "IBU for All Beers"))
+	hc_yAxis(title = list(text = "IBU for All Beers")) %>%
+	hc_legend(enabled = FALSE) 
 ```
 
-## More Style Analysis
+
+## Another view: Style Analysis
 ```{r}
+# This is a treemap that graphs squares respective to size and color to help illustrate the frequency of Style within the dataset. You can see here that the market is saturated with American IPA's. Very popular beer!
 BeerBrew %>% count(Style) %>% arrange(desc(n))%>% as.data.frame() -> styledf
 
 hchart(styledf, "treemap", hcaes(x = styledf$Style, value = n, color = n))
 ```
 
-####<font size="3">You can see here that the market is saturated with American IPA's.</font>
 
 # Numbers: Summary Statistics
 
 ## Summary Statistics for ABV
 ```{r summary}
+# This is the command to provide a summary statistic for the ABV variable
 summary(BeerBrew$ABV, na.rm=TRUE)
 ```
 ####<font size="3">You can see that the median ABV for all beers is roughly 0.056 and the mean ABV is 0.5977. It is also worth noting that there at 62 beers who do not have a recorded ABV. Those beers were not considered in the analysis for ABV.</font>
@@ -244,19 +267,56 @@ summary(BeerBrew$ABV, na.rm=TRUE)
 
 ## Summary Statistics for IBU
 ```{r}
+# This is the command to provide a summary statistic for the IBU variable
 summary(BeerBrew$IBU, na.rm=TRUE)
 ```
+
 ####<font size="3">You can see that the median IBU for all beers is roughly 35 and the mean IBU is 42.71. It is also worth noting that there at 1005 beers who do not have a recorded IBU. Those beers were not considered in the analysis for IBU.</font>
 
 # Conclusions
 
-## Headquarter Recommendation
+## Headquarter and Style of Beer Recommendation for Machine Lite
+####<font size="3">We recommend: 
+Target Market: Arknsas, Mississippi, and Alabama
+State Headquarter: Mississippi</font>
 
-## Style of Beer Recommendation
+####<font size="3">For an above average ABV beer at 0.06 (mean= 0.05977), the ideal IBU is (density plot?)</font>
+
 
 
 # Thank you
 
 ## Questions?
 
-####<font size="3">Insert Funny Meme Here.</font>
+```{r pressure, echo=FALSE, out.width = '50%'}
+knitr::include_graphics("question.jpg")
+```
+
+# Index of Resources
+
+## Codebook and HighCharter
+
+####Please see github for any references relating to our codebooks for each data frame referenced in this analysis
+
+####Please visit: http://jkunst.com/highcharter/ 
+
+
+```{r codebook, include=FALSE}
+# Original raw beer data
+#makeDataReport(rawBeer)
+# Original raw brew data
+#makeDataReport(rawBrew)
+# Merged beer and brew data set on brewery_id
+#makeDataReport(BeerBrew)
+# Median calculations for ABV and IBU for each state
+#makeDataReport(StateSummary)
+# Map data retrieved from high charter API
+#makeDataReport(mapdata)
+# NA analysis data frame
+#makeDataReport(na_count)
+# Max ABV data frame
+#makeDataReport(MaxABV)
+# Max IBU data frame
+#makeDataReport(MaxIBU)
+```
+
