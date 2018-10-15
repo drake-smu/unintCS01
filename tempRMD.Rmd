@@ -59,7 +59,7 @@ sessionInfo()
 ###-If we wanted to have a high ABV, what is the ideal IBU? 
 
 ## The Data
-```{r merge}
+```{r merge_data}
 # Reading in CSV data sets
 rawBeer <- read.csv(file = "data/raw/Beers.csv",header=TRUE, sep=",",stringsAsFactors=FALSE)
 rawBrew <- read.csv(file= "data/raw/Breweries.csv", header=TRUE, sep=",", stringsAsFactors=FALSE)
@@ -92,7 +92,7 @@ renames field "Brewery_ID".
 ####<font size="5">Here are the first 6 rows of our merged data set.</font>
 
 ## The Data (continued)
-```{r}
+```{r summary_tail}
 #This procudes a readable table for the presentation that includes the first six lines of the dataframe BeerBrew
 kable(tail(BeerBrew,6))%>%
   kable_styling(full_width = F)
@@ -106,16 +106,24 @@ Caption: Here is a quick glance at the tail of our merged dataset. You can see w
 
 
 ## The Data: Median Values and Breweries by State
-```{r}
+```{r summary_state}
 #Creating a dataset with the median ABVs and IBUs per state, and counting the number of breweries
-StateSummary <- as.data.frame(BeerBrew %>% group_by(State) %>% summarise(medianABV = median(ABV, na.rm=TRUE),medianIBU = median(IBU, na.rm=TRUE),NumBreweries = n_distinct(Brewery_ID)))
+StateSummary <- as.data.frame(BeerBrew 
+							  %>% group_by(State) 
+							  %>% summarise(medianABV = median(ABV, na.rm=TRUE),
+							  			  medianIBU = median(IBU, na.rm=TRUE),
+							  			  NumBreweries = n_distinct(Brewery_ID)))
 
 #Creating a knitr table for the presentation
 kable(head(StateSummary,6))%>%
   kable_styling(full_width = F)
 ```
 
-#### <font size="5">In order to make the dataset more friendly for analysis, we created a new dataset from our merged dataset that would look at the median ABVs and IBUs, along with the number of breweries for each state.</font>
+#### <font size="5">
+In order to make the dataset more friendly for analysis, we created a new
+dataset from our merged dataset that would look at the median ABVs and IBUs,
+along with the number of breweries for each state.
+</font>
 
 
 ## Missing Values
@@ -125,7 +133,7 @@ kable(head(StateSummary,6))%>%
 na_count <- data.frame(sapply(BeerBrew, function(y) sum(length(which(is.na(y))))))
 na_count<- na_count%>%
 	rename(na_count=sapply.BeerBrew..function.y..sum.length.which.is.na.y.....)
-na_count
+na_count 
 ```
 ########<font size="4">There are 62 missing data points for ABV, and 1005
 missing data points for IBU.</font>
@@ -171,7 +179,7 @@ and 23 breweries.</font>
 # Graphics: Analysis on ABV
 
 ## 
-```{r map of ABV}
+```{r map_abv}
 # This is a map of the US colored by the median ABV by State, we used the same
 # merging primary key and API call as the graphic above
 map3 <-hcmap("countries/us/us-all", data = StateSummary, value = "medianABV",
@@ -190,7 +198,7 @@ htmltools::tagList(map3)
 
 ## Median ABV 
 
-```{r medianABVplot}
+```{r abv_median,medianABVplot}
 # This is another visual graph of the median ABV by state using ggplot, this
 # allows us to see numerically the differences in median ABV by state
 g <-ggplot(StateSummary, aes(x=reorder(State,-medianABV),y=medianABV, fill=medianABV)) +  
@@ -207,22 +215,25 @@ g5
 ```
 
 ## ABV Distribution
-```{r fig.show='hold'}
+```{r abv_dist,fig.show='hold'}
 
 
-# Plot Density Distribution of IBU
-ggplot(Beer1, aes(x=IBU)) + 
+# Plot Density Distribution of ABV
+ggplot(Beer1, aes(x=ABV)) + 
  geom_histogram(aes(y=..density..),colour="black", fill="white", 
                 position="identity")+
  	geom_density(alpha=.2)+
-	geom_vline(aes(xintercept=mean(Beer1$IBU, na.rm = T)), color="blue",
-             linetype="dashed")
+	geom_vline(aes(xintercept=mean(Beer1$ABV, na.rm = T)), color="blue",
+             linetype="dashed")+
+	labs(title="ABV Density Plot",x="ABV", y = "Density")+
+	geom_text(data=Beer1, mapping=aes(x=mean(Beer1$ABV, na.rm = T), y=40, label=round(mean(Beer1$ABV, na.rm = T),digits=5)), size=4, angle=0, vjust=-0.4, hjust=0)
+	
 ```
 
 
 ## Maximum ABV
 
-```{r maximumIndividualABV}
+```{r abv_max}
 # This finds the state which has the most alcoholic beer, the name of the beer,
 # the city it is produced in, and the actual ABV of the beer
 MaxABV <- BeerBrew %>% 
@@ -243,7 +254,7 @@ of 12.8%</font>
 # Graphics: Analysis on IBU
 
 ## 
-```{r ibumap}
+```{r ibu_map}
 # This is a map of the US colored by median IBU of beers brewed in each state,
 # it uses the highcharter API and the same merging primary key as the above
 # graphs
@@ -263,7 +274,7 @@ htmltools::tagList(map2)
 
 ## Median IBU
 
-```{r medianIBUplot}
+```{r ibu_median}
 # This is another view that looks at median IBU of each beer brewed by state,
 # note here that SD doesn't have any data for IBU of their beers
 p<-ggplot(StateSummary, aes(x=reorder(State,-medianIBU),y=medianIBU, fill=medianIBU)) +  
@@ -278,8 +289,8 @@ p<-ggplot(StateSummary, aes(x=reorder(State,-medianIBU),y=medianIBU, fill=median
 p5
 ```
  
- ## IBU Distribution
-```{r fig.show='hold'}
+## IBU Distribution
+```{r ibu_dist,fig.show='hold'}
 # Plot Density Distribution of IBU
 ggplot(Beer1, aes(x=IBU)) + 
  geom_histogram(aes(y=..density..),colour="black", fill="white", 
@@ -287,7 +298,8 @@ ggplot(Beer1, aes(x=IBU)) +
  	geom_density(alpha=.2)+
 	geom_vline(aes(xintercept=mean(Beer1$IBU,na.rm = TRUE)), color="blue",
              linetype="dashed")+
-	labs(title="IBU Density Plot",x="IBU", y = "Density")
+	labs(title="IBU Density Plot",x="IBU", y = "Density")+
+	geom_text(data=Beer1, mapping=aes(x=round(mean(Beer1$IBU, na.rm = T),digits=2), y=0.022, label=round(mean(Beer1$IBU, na.rm = T),digits=4)), size=4, angle=0, vjust=-0.4, hjust=0)
 
 ```
 
