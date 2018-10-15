@@ -45,6 +45,13 @@ sessionInfo()
 
 # Introduction
 
+## Team  
+### Samantha Sprague  
+
+### David Josephs  
+
+### Carson Drake
+
 ## QQTD: Given the datasets Beer and Brews, we want to know:
 ###-Where our headquaters should be? 
 ###-What style of beer would appeal to the widest audience?
@@ -71,7 +78,11 @@ BeerBrew <- BeerBrew %>% select(BeerName,Beer_ID,ABV,IBU,Style,Ounces,BreweryNam
 kable(head(BeerBrew,6))
 ```
 
-####<font size="1">Caption: Here is a quick glance at the head of our merged dataset. You can see we created easy to read captions and merged the two raw datasets with our renames field "Brewery_ID".</font>
+####<font size="1">
+Caption: Here is a quick glance at the head of our merged dataset. You can see
+we created easy to read captions and merged the two raw datasets with our
+renames field "Brewery_ID".
+</font>
 
 ####<font size="5">Here are the first 6 rows of our merged data set.</font>
 
@@ -109,6 +120,7 @@ na_count
 ########<font size="4">There are 62 missing data points for ABV, and 1005 missing data points for IBU.</font>
 
 # Graphics: Number of Breweries
+
 
 ## 
 ```{r map_of_numbrew}
@@ -168,6 +180,20 @@ g <-ggplot(StateSummary, aes(x=reorder(State,-medianABV),y=medianABV, fill=media
 g5
 ```
 
+## ABV Distribution
+```{r fig.show='hold'}
+
+
+# Plot Density Distribution of IBU
+ggplot(Beer1, aes(x=IBU)) + 
+ geom_histogram(aes(y=..density..),colour="black", fill="white", 
+                position="identity")+
+ 	geom_density(alpha=.2)+
+	geom_vline(aes(xintercept=mean(Beer1$IBU, na.rm = T)), color="blue",
+             linetype="dashed")
+```
+
+
 ## Maximum ABV
 
 ```{r maximumIndividualABV}
@@ -212,6 +238,19 @@ p<-ggplot(StateSummary, aes(x=reorder(State,-medianIBU),y=medianIBU, fill=median
 p5
 ```
  
+ ## IBU Distribution
+```{r fig.show='hold'}
+# Plot Density Distribution of IBU
+ggplot(Beer1, aes(x=IBU)) + 
+ geom_histogram(aes(y=..density..),colour="black", fill="white", 
+                position="identity")+
+ 	geom_density(alpha=.2)+
+	geom_vline(aes(xintercept=mean(Beer1$IBU,na.rm = TRUE)), color="blue",
+             linetype="dashed")+
+	labs(title="IBU Density Plot",x="IBU", y = "Density")
+
+```
+
 
 ## Maximum IBU 
 
@@ -238,7 +277,7 @@ q
 
 ```{r}
 #This is an interactive scatterplot that shows the ABV v IBU for each beer and is colored by Style. You can see here that there are clusters that merge from ABV v IBU content, and that specific types of beer fall into these categories. Two prominent styles are black dots presented to be "American Double / Imperial IPA", and the pink dots represented to be "American IPAs". What other pattern/clusters do you see?
-hchart(BeerBrew, "scatter", hcaes(x=BeerBrew$ABV,  y=BeerBrew$IBU, group =BeerBrew$Style)) %>%
+hchart(BeerBrew, "scatter", hcaes(x='BeerBrew$ABV',  y='BeerBrew$IBU', group ='BeerBrew$Style')) %>%
 	hc_xAxis(title = list(text = "ABV for All Beers")) %>%
 	hc_yAxis(title = list(text = "IBU for All Beers")) %>%
 	hc_legend(enabled = FALSE) 
@@ -250,7 +289,7 @@ hchart(BeerBrew, "scatter", hcaes(x=BeerBrew$ABV,  y=BeerBrew$IBU, group =BeerBr
 # This is a treemap that graphs squares respective to size and color to help illustrate the frequency of Style within the dataset. You can see here that the market is saturated with American IPA's. Very popular beer!
 BeerBrew %>% count(Style) %>% arrange(desc(n))%>% as.data.frame() -> styledf
 
-hchart(styledf, "treemap", hcaes(x = styledf$Style, value = n, color = n))
+hchart(styledf, "treemap", hcaes(x = 'styledf$Style', value = 'n', color = 'n'))
 ```
 
 
@@ -276,11 +315,12 @@ summary(BeerBrew$IBU, na.rm=TRUE)
 # Conclusions
 
 ## Headquarter and Style of Beer Recommendation for Machine Lite
-####<font size="3">We recommend: 
-Target Market: Arknsas, Mississippi, and Alabama
+####<font size="3">
+We recommend:
+Target Market: Arkansas, Mississippi, and Alabama
 State Headquarter: Mississippi</font>
 
-####<font size="3">For an above average ABV beer at 0.06 (mean= 0.05977), the ideal IBU is (density plot?)</font>
+####<font size="3">According to our linear model, for an above average ABV beer at 0.06 (mean= 0.05977), the ideal IBU is roughly 35-40.</font>
 
 
 
