@@ -173,8 +173,8 @@ MaxABV
 
 
 Colorado has the most alcoholic beer of any state!  Lee Hill Series Vol. 5, a Belgian Style Quadrupel Ale produced in Boulder,CO  has an ABV of 12.8%
-# ABV vs IBU
 
+# ABV vs IBU
 
 ```{r scatterplotgg}
 q<-ggplot(data=BeerBrew, aes(x=ABV,y=IBU))+geom_point()+geom_smooth(method="glm",aes(color="Linear"))+scale_color_manual(name="Fits",breaks=c("Linear"),values=c("blue"))+theme_classic()+ggtitle("Bitterness vs ABV") +theme(plot.title = element_text(hjust = 0.5))+labs(x="ABV", y="IBU")+xlim(.027,0.15)
@@ -187,7 +187,5 @@ q
 ```{r summary}
 summary(BeerBrew$ABV, na.rm=TRUE)
 ```
-
-
  
 You can see that the median ABV for all beers is roughly 0.056 and the mean ABV is 0.5977. It is also worth noting that there at 62 beers who do not have a recorded ABV. Those beers were not considered in the analysis for ABV. 
