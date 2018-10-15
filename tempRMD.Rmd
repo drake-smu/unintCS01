@@ -170,10 +170,12 @@ hcmap("countries/us/us-all", data = StateSummary, value = "NumBreweries",
 			 			 useHTML = TRUE))
 ```
 
-####<font size="2">We can see that the Colorado has the darkest coloring on the
+####<font size="2">
+We can see that the Colorado has the darkest coloring on the
 graph which alludes to the highest number of breweries! Colorado contains 47
 breweries. California, Oregon, Texas and Washington fall behind with 39, 29, 28,
-and 23 breweries.</font>
+and 23 breweries.
+</font>
 
 
 # Graphics: Analysis on ABV
@@ -210,7 +212,7 @@ g <-ggplot(StateSummary, aes(x=reorder(State,-medianABV),y=medianABV, fill=media
  	scale_fill_gradient2(midpoint=median(StateSummary$medianABV),low='red', mid='snow3', high='black', space='Lab')+
  	theme_classic()+labs(x="State", y="ABV", legend="ABV")+
  	ggtitle("Median ABV by state") + 
- 	theme(plot.title = element_text(hjust = 0.5)) 
+ 	theme(plot.title = element_text(hjust = 0.5),axis.text=element_text(size=5)) 
 g5
 ```
 
@@ -242,12 +244,14 @@ MaxABV <- BeerBrew %>%
 	arrange(desc(ABV)) %>% 
 	slice(1)
 kable(MaxABV)%>%
-  kable_styling(full_width = F)
+  kable_styling(full_width = F, position = "float_right")
 ```
 
-####<font size="3">Colorado has the most alcoholic beer of any state!  Lee Hill
-Series Vol. 5, a Belgian Style Quadrupel Ale produced in Boulder,CO  has an ABV
-of 12.8%</font>
+####<font size="3">
+Colorado has the most alcoholic beer of any state!  
+Lee Hill Series Vol. 5, a Belgian Style Quadrupel Ale  
+produced in Boulder,CO has an ABV of 12.8%
+</font>
 
 
 
@@ -285,7 +289,7 @@ p<-ggplot(StateSummary, aes(x=reorder(State,-medianIBU),y=medianIBU, fill=median
  p5<-p4+scale_fill_gradient2(midpoint=median(StateSummary$medianIBU,na.rm=TRUE),
  							low='red', mid='snow3', high='black', space='Lab')+
  	theme_classic()+labs(x="State", y="IBU", legend="IBU")+ggtitle("Median IBU by State") +
-  theme(plot.title = element_text(hjust = 0.5)) 
+  theme(plot.title = element_text(hjust = 0.5),axis.text=element_text(size=5)) 
 p5
 ```
  
@@ -373,7 +377,7 @@ hchart(styledf, "treemap", hcaes(x = 'styledf$Style', value = 'n', color = 'n'))
 # Numbers: Summary Statistics
 
 ## Summary Statistics for ABV
-```{r summary, comment=""}
+```{r abv_summary, comment=""}
 # This is the command to provide a summary statistic for the ABV variable
 summary(BeerBrew$ABV, na.rm=TRUE)
 ```
@@ -386,15 +390,17 @@ recorded ABV. Those beers were not considered in the analysis for ABV.
 
 
 ## Summary Statistics for IBU
-```{r}
+```{r ibu_summary, comment=""}
 # This is the command to provide a summary statistic for the IBU variable
 summary(BeerBrew$IBU, na.rm=TRUE)
 ```
 
-####<font size="3">You can see that the median IBU for all beers is roughly 35
+####<font size="3">
+You can see that the median IBU for all beers is roughly 35
 and the mean IBU is 42.71. It is also worth noting that there at 1005 beers who
 do not have a recorded IBU. Those beers were not considered in the analysis for
-IBU.</font>
+IBU.
+</font>
 
 # Conclusions
 
