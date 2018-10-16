@@ -8,7 +8,7 @@ The purpose of this repository is to share an analysis of two datasets (beer.csv
 * R 
 	* Contains analysis and cleaning of the data, coded in R, as well as code used to generate maps etc.
 * Analysis
-	* Contains intermediate Analysis and R markdown experiments
+	* Contains our analysis, its results, and a presentation of the analysis, in the form of a Markdown file and a ioslides presentation
 * CodeBook
 	* Contains a codebook for the project, produced with the help of the package DataMaids
 * Data
@@ -19,8 +19,7 @@ The purpose of this repository is to share an analysis of two datasets (beer.csv
 	* Unused
 * Packrat
 	* Contains all the necessary packages for this project
-* Presentation
-	* Contains final results of our analysis, including a Markdown file and a ioslides presentation
+
 
 
 ## Contact Information:
