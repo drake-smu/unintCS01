@@ -1,8 +1,0 @@
----
-title: "Slide-2"
-author: "Carson Drake"
-date: "10/14/2018"
-output: html_document
----
-
-
