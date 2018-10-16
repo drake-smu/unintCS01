@@ -50,13 +50,19 @@ sessionInfo()
 
 ## Team  
 ### Samantha Sprague  
+* Principal Flavor Scientist
+* Creative Genius
 
 ### David Josephs  
+* Senior Hopps Engineer
+* Data Janitor
 
-### Carson Drake
+### Carson Drake  
+* Lead Taste Data Analyst
+* Captain Code
 
 ## QOTD: Given the datasets Beer and Brews, we want to know:
-###-Where our headquaters should be? 
+###-Where our headquarters should be? 
 ###-What style of beer would appeal to the widest audience?
 ###-If we wanted to have a high ABV, what is the ideal IBU? 
 
@@ -88,6 +94,8 @@ BeerBrew <- BeerBrew %>%
 kable(head(BeerBrew,6))%>%
   kable_styling(full_width = F)
 ```
+<br>
+<br>
 
 ####<font size="1">
 Caption: Here is a quick glance at the head of our merged dataset. You can see
@@ -103,6 +111,8 @@ renames field "Brewery_ID".
 kable(tail(BeerBrew,6))%>%
   kable_styling(full_width = F)
 ```
+<br>
+<br>
 
 ####<font size="1">
 Caption: Here is a quick glance at the tail of our merged dataset. You can see we created easy to read captions and merged the two raw datasets with our renames field "Brewery_ID".
@@ -124,6 +134,8 @@ StateSummary <- as.data.frame(BeerBrew
 kable(head(StateSummary,6))%>%
   kable_styling(full_width = F)
 ```
+<br>
+<br>
 
 #### <font size="5">
 In order to make the dataset more friendly for analysis, we created a new
@@ -141,8 +153,12 @@ na_count<- na_count%>%
 	rename(na_count=sapply.BeerBrew..function.y..sum.length.which.is.na.y.....)
 na_count 
 ```
-########<font size="4">There are 62 missing data points for ABV, and 1005
-missing data points for IBU.</font>
+<br>
+<br>
+
+########<font size="4">
+There are 62 missing data points for ABV, and 1005 missing data points for IBU.
+</font>
 
 # Graphics: Number of Breweries
 
@@ -398,6 +414,9 @@ hchart(styledf, "treemap", hcaes(x = 'styledf$Style', value = 'n', color = 'n'))
 # This is the command to provide a summary statistic for the ABV variable
 summary(BeerBrew$ABV, na.rm=TRUE)
 ```
+<br>
+<br>
+
 ####<font size="3">
 You can see that the median ABV for all beers is roughly 0.056 and the mean ABV
 is 0.5977. It is also worth noting that there at 62 beers who do not have a
@@ -411,6 +430,8 @@ recorded ABV. Those beers were not considered in the analysis for ABV.
 # This is the command to provide a summary statistic for the IBU variable
 summary(BeerBrew$IBU, na.rm=TRUE)
 ```
+<br>
+<br>
 
 ####<font size="3">
 You can see that the median IBU for all beers is roughly 35
@@ -451,9 +472,17 @@ knitr::include_graphics("question.jpg")
 
 ## Codebook and HighCharter
 
+<br>
+
 ####Please see github for any references relating to our codebooks for each data frame referenced in this analysis
 
+<br>
+
 ####Please visit: http://jkunst.com/highcharter/ 
+
+<br>
+
+####Miller Lite's logo was the inspiration for our ficticious company's original product.
 
 
 ```{r codebook, include=FALSE}
