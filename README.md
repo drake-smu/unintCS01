@@ -1,6 +1,6 @@
-#Unofficial Intelligence Case Study 1
+# Unofficial Intelligence Case Study 1
 
-##Introduction:
+## Introduction:
 The purpose of this repository is to share an analysis of two datasets (beer.csv and brew.csv) given for a midterm in MSDS6306 Doing Data Science. Our project focused on analyzing the following questions: where should the headquarters of our new brewing company be, and what kind of beer would appeal the widest audience? If we want to have a high ABV, what is the ideal IBU?
 
 
