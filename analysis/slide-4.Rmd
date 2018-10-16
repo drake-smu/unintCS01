@@ -1,0 +1,43 @@
+---
+title: "Slide-4"
+author: "Carson Drake"
+date: "10/14/2018"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+library(highcharter);
+knitr::opts_chunk$set(echo = TRUE);
+
+
+```
+
+## State with most alcoholic beer? Median graphs, greatest ABV?
+
+Below is an interactive state map that allows you to toggle over each state and
+showcase the ABV corresponding to that particular state. It also includes a
+heatmap to represent the ABV by color. The lighter the state, the smaller the
+ABV. The darker the state, the more higher the ABV. #hcmap is an API that uses
+map data from the highcharter. We are calling and leveraging that API in order
+to create the graph below. More information on this API can be found at:
+http://jkunst.com/highcharter/highmaps.html
+
+
+```{r}
+
+hcmap("countries/us/us-all", data = StateSummary, value = "medianABV",
+	  joinBy = "hc-a2", name = "State Summary | Median ABV",
+	  dataLabels = list(enabled = TRUE, format = '{point.name}'),
+	  borderColor = "#FAFAFA", borderWidth = 0.1,
+	  tooltip = list(valueDecimals = 5,valueSuffix = " ABV")) %>%
+	hc_colorAxis(minColor = "#FFFFFF", maxColor = "#34675C") %>%
+	hc_mapNavigation(enabled = TRUE) %>%
+	hc_title(text = "<b>Median ABV by State</b>",
+			 margin = 20, align = "center",
+			 style = list(color = "#000000",
+			 			 useHTML = TRUE)) %>%
+	hc_colorAxis(minColor = "#FFFFFF", maxColor = "#FF0000")
+
+```
+
