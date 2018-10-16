@@ -357,6 +357,7 @@ q
 ## Another view: ABV vs IBU
 
 ```{r}
+<<<<<<< Updated upstream
 #This is an interactive scatterplot that shows the ABV v IBU for each beer and
 #is colored by Style. You can see here that there are clusters that merge from
 #ABV v IBU content, and that specific types of beer fall into these categories.
@@ -364,6 +365,9 @@ q
 #IPA", and the pink dots represented to be "American IPAs". What other
 #pattern/clusters do you see?
 hchart(BeerBrew, "scatter", hcaes(x='BeerBrew$ABV',  y='BeerBrew$IBU', group ='BeerBrew$Style')) %>%
+=======
+hchart(BeerBrew, "scatter", hcaes(x='ABV',  y='IBU', group ='Style')) %>%
+>>>>>>> Stashed changes
 	hc_xAxis(title = list(text = "ABV for All Beers")) %>%
 	hc_yAxis(title = list(text = "IBU for All Beers")) %>%
 	hc_legend(enabled = FALSE) 
@@ -377,7 +381,11 @@ hchart(BeerBrew, "scatter", hcaes(x='BeerBrew$ABV',  y='BeerBrew$IBU', group ='B
 # the market is saturated with American IPA's. Very popular beer!
 BeerBrew %>% count(Style) %>% arrange(desc(n))%>% as.data.frame() -> styledf
 
+<<<<<<< Updated upstream
 hchart(styledf, "treemap", hcaes(x = 'styledf$Style', value = 'n', color = 'n'))
+=======
+hchart(styledf, "treemap", hcaes(x = 'Style', value = 'n', color = 'n'))
+>>>>>>> Stashed changes
 ```
 
 
