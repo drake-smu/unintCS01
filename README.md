@@ -26,4 +26,4 @@ The purpose of this repository is to share an analysis of two datasets (beer.csv
 The group team, “Unofficial Intelligence” are the authors of this document. We all worked equally to contribute to this analysis (even if git commit tracker doesn’t show it -- some of us are still getting friendly with git). Please contact any of the members below by email: 
 Samantha Sprague: ssprague@smu.edu
 Carson Drake: drakec@smu.edu
-David Josephs: djosephs@smu.edu
+David Josephs: josephsd@smu.edu
