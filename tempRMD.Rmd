@@ -248,9 +248,12 @@ kable(MaxABV)%>%
 ```
 
 ####<font size="3">
-Colorado has the most alcoholic beer of any state!  
-Lee Hill Series Vol. 5, a Belgian Style Quadrupel Ale  
-produced in Boulder,CO has an ABV of 12.8%
+Colorado has the most alcoholic beer of any state! Lee Hill Series Vol. 5,  
+a Belgian Style Quadrupel Ale produced in Boulder,CO has an ABV of 12.8%.  
+We also see that Kentucky and Washington DC prefer the most  
+alcoholic beers overall, while in general, the states prefer beer with an  
+average alcoholic content, giving the distribution a tight, somewhat  
+normal shape.
 </font>
 
 
@@ -323,7 +326,11 @@ kable(MaxIBU)%>%
 ```
 ####<font size="3">
 Oregon has the bitterest beer of any state!  
-Bitter Bitch Imperial IPA, produced in Astoria, has an IBU of 138!
+Bitter Bitch Imperial IPA, produced in Astoria,  
+has an IBU of 138! We also see that overall, Maine   
+has the bitterest beers. It seems that most states  
+prefer beer which is less bitter than average,  
+giving the distribution of bitterness a right skew.
 </font>
 
 
@@ -406,12 +413,15 @@ IBU.
 
 ## Headquarter and Style of Beer Recommendation for Machine Lite
 ####<font size="3">
-We recommend:
-Target Market: Arkansas, Mississippi, and Alabama
-State Headquarter: Mississippi</font>
+**We recommend**:  
+Target Market: Arkansas, Mississippi, and Alabama  
+State Headquarter: Mississippi
+</font>
 
-####<font size="3">According to our linear model, for an above average ABV beer
-at 0.06 (mean= 0.05977), the ideal IBU is roughly 35-40.</font>
+####<font size="3">
+According to our linear model, for an above average ABV beer
+at 0.06 (mean= 0.05977), the ideal IBU is roughly 35-40. 
+</font>
 
 
 
